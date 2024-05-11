@@ -11,20 +11,42 @@ def application_menu():
     print("0. Выйти")
 
 
+def _create_order():
+    ...
+
+
+def _update_order():
+    ...
+
+
+def _get_orders():
+    ...
+
+
+def _exit_application():
+    ...
+
+
 def main():
     application_menu()
     choice = int(input("Введите: "))
 
-    if choice == 1:
-        ...
-    elif choice == 2:
-        ...
-    elif choice == 3:
-        ...
-    elif choice == 0:
-        ...
-    else:
-        print("Неверный ввод! Пожалуйста, повторите!")
+    routes = {
+        1: _create_order,
+        2: _update_order,
+        3: _get_orders,
+        0: _exit_application,
+    }
+
+    try:
+
+        if choice in routes:           
+            routes.get(choice)
+        else:
+            print("Неправильный ввод! Пожалуйста, повторите!")
+
+    except:
+        print("Возникла ошибка! Пожалуйста, повторите!")
 
 if __name__ == "__main__":
     while True:
