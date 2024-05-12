@@ -4,7 +4,12 @@ NOTES!
 - What if there more than 20 IN-PROGRESS orders? No problem.
 """
 
+import sys
+
+
 def application_menu():
+    print("\n")
+    print('*** OOO "MKH CENTRE FAST FOOD" ***')
     print("1. Создать заказ")
     print("2. Обновить статус заказа") 
     print("3. Табло") 
@@ -24,7 +29,7 @@ def _get_orders():
 
 
 def _exit_application():
-    ...
+    sys.exit()
 
 
 def main():
@@ -41,12 +46,13 @@ def main():
     try:
 
         if choice in routes:           
-            routes.get(choice)
+            routes[choice]()
         else:
             print("Неправильный ввод! Пожалуйста, повторите!")
 
-    except:
+    except Exception:
         print("Возникла ошибка! Пожалуйста, повторите!")
+
 
 if __name__ == "__main__":
     while True:

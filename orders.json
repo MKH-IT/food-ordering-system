@@ -6,7 +6,7 @@
         "meals": ["#1", "#2"]
     },
     "#2": {
-        "status": "In progress",
+        "status": "Ready",
         "creation_time": "...",
         "cost": "$45",
         "meals": ["#1", "#2"]
