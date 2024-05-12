@@ -1,12 +1,14 @@
 {
-    "#1": {
-        "name": "Pizza",
-        "price": "$2",
-        "description": "..."
+    "1": {
+        "name": "🍕 Pizza",
+        "price": "9.90"
     },
-    "#2": {
-        "name": "Burger",
-        "price": "$2",
-        "description": "..."
+    "2": {
+        "name": "🍔 Burger",
+        "price": "5.90"
+    },
+    "3": {
+        "name": "🌭 Hot-dog",
+        "price": "3.00"
     }
 }
