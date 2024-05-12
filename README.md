@@ -2,6 +2,10 @@
 Food ordering system in Python | Get order → print cheque as PDF file → see order status on separate HTML page.
 
 
+## Order statuses UI
+<img src="images/image.png">
+
+
 ## How do we save menu items?
 - `menu.json` file is used to store menu items.
     ```
