@@ -6,15 +6,17 @@ Food ordering system in Python | Get order → print cheque as PDF file → see 
 - `menu.json` file is used to store menu items.
     ```
     {
-        "#1": {
-            "name": "Pizza",
-            "price": "$2",
-            "description": "..."
+        "1": {
+            "name": "🍕 Pizza",
+            "price": "9.90"
         },
-        "#2": {
-            "name": "Burger",
-            "price": "$2",
-            "description": "..."
+        "2": {
+            "name": "🍔 Burger",
+            "price": "5.90"
+        },
+        "3": {
+            "name": "🌭 Hot-dog",
+            "price": "3.00"
         }
     }
     ```
@@ -23,17 +25,23 @@ Food ordering system in Python | Get order → print cheque as PDF file → see 
 - `orders.json` file is used to store order info.
     ```
     {
-        "#1": {
+        "1": {
             "status": "In progress",
             "creation_time": "...",
             "cost": "$45",
-            "meals": ["#1", "#2"]
+            "meals": {
+                "1": 2,
+                "2": 1
+            }
         },
-        "#2": {
-            "status": "In progress",
+        "2": {
+            "status": "Ready",
             "creation_time": "...",
             "cost": "$45",
-            "meals": ["#1", "#2"]
+            "meals": {
+                "1": 2,
+                "2": 1
+            }
         }
     }
     ```

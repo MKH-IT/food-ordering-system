@@ -13,11 +13,17 @@ from helpers import read_json
 
 
 def _get_menu() -> dict:
+    """
+    Read menu items from JSON file.
+    """
     data = read_json("menu.json")
     return data
 
 
 def _create_order_ui():
+    """
+    Order creation presenation layer.
+    """
     # Read menu items.
     for meal_id, meal_info in _get_menu().items():
         print(f"{meal_id} ✷ {meal_info["name"]} ✷ {meal_info["price"]}")
@@ -38,8 +44,7 @@ def _create_order_ui():
         quantity = int(input("Quantity: "))
         order_meals[choice] += quantity
 
-    print("\n")
-    print("*** Your order ***")
+    print("\n*** Your order ***")
     total_price = 0
     for order_meal, quantity in order_meals.items():
         meal_name = _get_menu()[order_meal]["name"]
@@ -51,26 +56,26 @@ def _create_order_ui():
     print(f"Your total price 💰: ${total_price}")
     print(f"Order creation time ⏰: {datetime.datetime.now()}")
 
-    # Save back to JSON.
-    order_id = int(meal_id) + 1
-    ...
-
 
 def _create_order():
-    ...
+    """
+    Save order to JSON.
+    """
+    order_id = ...
 
 
-def _update_order():
-    ...
+def _update_order_status_ui():
+    """
+    Update order status
+    """
 
 
-def _get_orders():
+def _get_orders_ui():
     ...
 
 
 def application_menu():
-    print("\n")
-    print('*** OOO "MKH CENTRE FAST FOOD" ***')
+    print('\n*** OOO "MKH CENTRE FAST FOOD" ***')
     print("1. Create order")
     print("2. Update order status") 
     print("3. Tablo") 
@@ -89,8 +94,8 @@ def main():
 
     routes = {
         "1": _create_order_ui,
-        "2": _update_order,
-        "3": _get_orders,
+        "2": _update_order_status_ui,
+        "3": _get_orders_ui,
         "0": _exit_application,
     }
 
