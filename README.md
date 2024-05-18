@@ -3,7 +3,11 @@ Food ordering system in Python | Get order → print cheque as PDF file → see 
 
 
 ## Order statuses UI
-<img src="images/image.png">
+<img src="images/tablo.png">
+
+## Cheque UI
+<img src="images/cheque.png">
+
 
 
 ## How do we save menu items?
