@@ -6,7 +6,7 @@
     <title>MKH IT CAFE</title>
     <style>
         body {
-            max-width: 700px;
+            max-width: 600px;
             margin: 30px auto;
             font-family: monospace;
             font-size: 130%;
@@ -21,17 +21,18 @@
         .ticket {
             font-size: 20px;
             font-weight: 600;
-            /* padding: 30px 0px 30px 0px; */
         }
 
         .line {
-            width: 80%;
             border: 10px solid green;
+        }
+
+        .dotted-line {
+            border-top: 1px dotted black;
         }
 
         .order {
             padding-top: 30px;
-            padding-left: 60px;
         }
         
         .order p {
@@ -44,23 +45,12 @@
         }
 
         .item-name {
-            width: 500px;
+            width: 600px;
         }
 
-        .item-price {
-            text-align: left;
+        .item-price, .nds-price, .total-price {
+            text-align: right;
         }
-
-        .nds-price {
-            text-align: left;
-            padding-left: 455px;
-        }
-
-        .total-price {
-            text-align: left;
-            padding-left: 475px;
-        }
-
 
     </style>
 </head>
@@ -71,51 +61,48 @@
         <p>SAMARKAND CITY - UZBEKISTAN</p>
         <p>TEL: +998 94 000 73 90</p>
         <hr class="line">
-        <p class="ticket">░░░░░░░░░░░░░░░░░░░░ Ticket ░░░░░░░░░░░░░░░░░░░░ </p>
+        <p class="ticket">░░░░░░░░░░░░░░░░░░░░ Ticket ░░░░░░░░░░░░░░░░░░░░░ </p>
         <hr class="line">
     </div>
 
     <div class="order">
         <p>RECEIPT: #17</p>
 
-        <p>---------------------------------------------------------</p>
+        <hr class="dotted-line">
         <table>
             <tr class="item-row">
-                <td class="item-quantity">-1</td>
-                <td class="item-name">BIHARI TIKKA TIKKA TIKKA</td>
+                <td class="item-name">1 | BIHARI TIKKA TIKKA TIKKA</td>
                 <td class="item-price">$450</td>
             </tr>
             <tr class="item-row">
-                <td class="item-quantity">-1</td>
-                <td class="item-name">MSHKAKI</td>
+                <td class="item-name">1 | MSHKAKI</td>
                 <td class="item-price">$700</td>
             </tr>
             <tr class="item-row">
-                <td class="item-quantity">-1</td>
-                <td class="item-name">GOLA KEBAB</td>
+                <td class="item-name">2 | GOLA KEBAB</td>
                 <td class="item-price">$700</td>
             </tr>
         </table>
 
-        <p>=========================================================</p>
+        <hr class="dotted-line">
         <table>
             <tr class="item-row">
-                <td >VAT 12%</td>
+                <td class="item-name">VAT 12%</td>
                 <td class="nds-price">$450</td>
             </tr>
         </table>
 
-        <p>---------------------------------------------------------</p>
+        <hr class="dotted-line">
         <table>
             <tr class="item-row">
-                <td>TOTAL</td>
+                <td class="item-name">TOTAL</td>
                 <td class="total-price">$700</td>
             </tr>
         </table>
 
-        <p>=========================================================</p>
+        <hr class="dotted-line">
         <p class="date">Date: 18/05/2002</p>
-        <p class="time">Time: 10:59 </p>
+        <p class="time">Time: 10:59</p>
         
     </div>
 
