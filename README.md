@@ -3,7 +3,7 @@ Food ordering system in Python | Get order → print cheque as PDF file → see 
 
 
 ## Order statuses UI
-<img src="images/tablo.png">
+<img src="images/statuses.png">
 
 ## Cheque UI
 <img src="images/cheque.png">
