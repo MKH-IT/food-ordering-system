@@ -5,101 +5,87 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Order Statuses</title>
     <style>
-  
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
-        .block-left {
+        .block-left, .block-right {
             background-color: #f8f131;
             width: 1100px;
             height: 800px;
-            /* padding: 0 40px 0 40px; */
-
         }
 
         .block-right {
             background-color: rgb(10, 144, 10);
             color: rgba(255, 255, 255, 0.961);
-            width: 1100px;
-            height: 800px;
-            /* padding: 0 40px 0 40px; */
         }
 
-        .block-top-left {
-            background-color:#c7c92b;
+        .block-top-left, .block-top-right {
+            background-color: #c7c92b;
             width: 1100px;
             height: 200px;
         }
 
         .block-top-right {
             background-color: rgb(26, 123, 26);
-            width: 1100px;
-            height: 200px;
         }
         
-        .top-right-text {
+        .top-right-text, .top-left-text {
             font-size: 80px;
             margin-top: 40px;
-            /* margin-bottom: 0px; */
             color: white;
             text-align: center;
         }
 
         .top-left-text {
-            font-size: 80px;
-            margin-top: 40px;
-            /* margin-bottom: 0px; */
-            text-align: center;
+            color: black;
         }
 
-        .order-row {
+        .orders-container {
+            display: flex;
+        }
+
+        .order-rows {
+            display: flex;
+            flex-wrap: wrap-reverse;
             margin-left: 100px;
         }
 
         .order-id {
             font-size: 140px;
-            margin: 10px 0px 10px 00px;
-            padding-left: 70px;
+            margin: 10px;
             font-weight: 700;
+            flex: 1 1 30%; /* Allows three items per row */
+            text-align: center;
         }
-
-
     </style>
 </head>
 <body>
-    
-
     <div style="display: flex;">
         <div class="block-top-left">   
-            <b><p class="top-left-text ">In progress</p></b>
+            <b><p class="top-left-text">In progress</p></b>
         </div>
         <div class="block-top-right">
             <b><p class="top-right-text">Ready</p></b>
         </div>    
     </div>
 
-    <div style="display: flex;">
-      
+    <div class="orders-container">
         <div class="block-left">
-            <table>
-                <tr class="order-row">
-                    <td class="order-id">01 </td>
-                    <td class="order-id">02 </td>
-                    <td class="order-id">03 </td>
-                </tr>
-            </table>
-
+            <div class="order-rows">
+                <div class="order-id">04</div>
+                <div class="order-id">05</div>
+                <div class="order-id">06</div>
+                <div class="order-id">07</div>
+            </div>
         </div>
         <div class="block-right">
-            <table>
-                <tr class="order-row">
-                    <td class="order-id">01 </td>
-                    <td class="order-id">02 </td>
-                    <td class="order-id">03 </td>
-                </tr>
-            </table>
+            <div class="order-rows">
+                <div class="order-id">01</div>
+                <div class="order-id">02</div>
+                <div class="order-id">03</div>
+            </div>
         </div>
-        
+    </div>
 </body>
 </html>
