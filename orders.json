@@ -1,20 +1,27 @@
 {
     "1": {
         "status": "In progress",
-        "creation_time": "...",
-        "cost": "$45",
+        "creation_time": "2024-05-19 10:22:35.976888",
+        "cost": "17.700000",
         "meals": {
-            "1": 2,
-            "2": 1
+            "2": 3
         }
     },
     "2": {
-        "status": "Ready",
-        "creation_time": "...",
-        "cost": "$45",
+        "status": "In progress",
+        "creation_time": "2024-05-19 10:23:59.669075",
+        "cost": 17.7,
         "meals": {
-            "1": 2,
-            "2": 1
+            "2": 3
+        }
+    },
+    "3": {
+        "status": "In progress",
+        "creation_time": "2024-05-19 09:59:36.573896",
+        "cost": 95.5,
+        "meals": {
+            "1": 5,
+            "10": 23
         }
     }
 }

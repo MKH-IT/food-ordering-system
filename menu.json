@@ -10,5 +10,33 @@
     "3": {
         "name": "🌭 Hot-dog",
         "price": "3.00"
+    },
+    "4": {
+        "name": "🍟 Fries",
+        "price": "2.50"
+    },
+    "5": {
+        "name": "🍦 Ice-cream",
+        "price": "3.50"
+    },
+    "6": {
+        "name": "🍺 Beer",
+        "price": "4.00"
+    },
+    "7": {
+        "name": "🍷 Wine",
+        "price": "5.00"
+    },
+    "8": {
+        "name": "🍸 Cocktail",
+        "price": "7.00"
+    },
+    "9": {
+        "name": "🍹 Mocktail",
+        "price": "6.00"
+    },
+    "10": {
+        "name": "🍉 Watermelon",
+        "price": "2.00"
     }
 }
