@@ -11,10 +11,19 @@ import datetime
 
 from helpers import read_json, write_json
 
-MAX_ORDERS_CAN_BE_HANDLED = 3
-MENU_ITEM_ORDER_LIMIT = 20
+MAX_ORDERS_CAN_BE_HANDLED = 12
+MENU_ITEM_ORDER_LIMIT = 50
 
-def _get_menu() -> dict:
+
+def print_application_menu() -> None:
+    print('\n*** OOO "MKH IT PARK CAFE" ***')
+    print("1. Create order")
+    print("2. Update order status") 
+    print("3. Tablo") 
+    print("0. Exit")
+
+
+def get_menu() -> dict:
     """
     Read menu items from JSON file.
     """
@@ -22,7 +31,7 @@ def _get_menu() -> dict:
     return data
 
 
-def _get_orders() -> dict:
+def get_orders() -> dict:
     """
     Read orders from JSON file.
     """
@@ -30,45 +39,31 @@ def _get_orders() -> dict:
     return data
 
 
-def _create_order_ui():
+def print_menu_items() -> None:
+    menu = get_menu()
+
+    print("\n*** Menu ***")
+    print("-" * 30)
+    for meal_id, meal_info in menu.items():
+        print(f"{meal_id} ✷ {meal_info["name"]} ✷ {meal_info["price"]}")
+    print("-" * 30)
+
+
+def _create_order_ui() -> None:
     """
-    Order creation presenation layer. Save order.
+    Print items to screen. Select items.
     Print cheque.
     Update tablo.
     """
-    # Read menu items.
-    for meal_id, meal_info in _get_menu().items():
-        print(f"{meal_id} ✷ {meal_info["name"]} ✷ {meal_info["price"]}")
-
-    # Get order items from customer.
-    order_meals = defaultdict(int)
-
-    while True:
-        choice = input("Select the meal (or enter 0 to exit): ")
-
-        if choice == "0":
-            break
-        
-        if choice not in _get_menu():
-            print("You selected wrong menu item. Please, repeat!")
-            continue
-            
-        quantity = int(input("Quantity: "))
-
-        if quantity >= MENU_ITEM_ORDER_LIMIT:
-            print(f"Sorry, you can order only {MENU_ITEM_ORDER_LIMIT} items at once. Please, repeat!")
-            continue
-
-        order_meals[choice] += quantity
-
-    # Remove orders with negative quantities.
-    order_meals = {meal_id: quantity for meal_id, quantity in order_meals.items() if quantity > 0}
+    menu = get_menu()
+    print_menu_items()
+    order_meals = _get_order_meals(menu)
 
     print("\n*** Your order ***")
     total_price = 0
     for order_meal, quantity in order_meals.items():
-        meal_name = _get_menu()[order_meal]["name"]
-        meal_price = _get_menu()[order_meal]["price"]
+        meal_name = menu[order_meal]["name"]
+        meal_price = menu[order_meal]["price"]
         print(f"{meal_name} ✷ Quantity: {quantity} ✷ ${meal_price} per piece")
         price = float(meal_price) * quantity
         total_price += price
@@ -78,33 +73,69 @@ def _create_order_ui():
     print(f"Your total price 💰: ${total_price}")
     print(f"Order creation time ⏰: {datetime.datetime.now()}")
 
+    # Print cheque.
+    _generate_cheque(order_meals, total_price)
+
     # Save order to JSON.
-    _create_order(order_meals, total_price)
+    order_id = _create_order(order_meals, total_price)
+
+    if not order_id:
+        return
+
+    # Place order to tablo.
+    _update_tablo(order_id, "In progress")
+    print(f"\n*** Thank you! *** \nYour order number is {order_id}.")
 
 
-def _create_order(order_meals: dict, total_price: float):
+def _get_order_meals(menu: dict):
+    order_meals = defaultdict(int)
+
+    while True:
+        choice = input("Select the meal (or enter 0 to exit): ")
+
+        if choice == "0":
+            break
+        
+        if choice not in menu:
+            print("You selected wrong menu item. Please, repeat!")
+            continue
+            
+        quantity = int(input("Quantity: "))
+
+        if order_meals[choice] + quantity > MENU_ITEM_ORDER_LIMIT:
+            print(f"Sorry, you can order only {MENU_ITEM_ORDER_LIMIT} items at once. Please, repeat!")
+            continue
+
+        order_meals[choice] += quantity
+
+        # Remove meal from order if quantity is 0 or less.
+        if order_meals[choice] <= 0:
+            del order_meals[choice]
+    
+    return order_meals
+
+
+
+def _generate_cheque(order_meals: dict, total_price: float) -> None:
+    ...
+
+
+def _update_tablo(order_id: int, status: str) -> None:
+    ...
+
+
+def _create_order(order_meals: dict, total_price: float) -> int:
     """
-    Save order to JSON.
+    Generate order ID, save order to JSON and return order ID.
     """
-    orders = _get_orders()
 
-    if not orders:
-        order_id = 1
-    else:
-        max_order_id = max(orders.keys(), key=int)
-        order_id = int(max_order_id) + 1
+    orders = get_orders()
+    new_order_id = _generate_order_id(orders)
 
-        if order_id >= MAX_ORDERS_CAN_BE_HANDLED:
-            order_id_ = 1
-            while order_id_ <= MAX_ORDERS_CAN_BE_HANDLED:
-                if orders[str(order_id_)]["status"] == "Ready":
-                    order_id = order_id_
-                    break
-                order_id_ = order_id_ + 1
-            else:
-                print("We cannot handle your order. Please, try again later.")
-                return
-
+    if new_order_id == 0:
+        print("Sorry, we cannot accept more orders now. Please, try later.")
+        return
+    
     order_item = {
         "status": "In progress",
         "creation_time": str(datetime.datetime.now()),
@@ -113,18 +144,39 @@ def _create_order(order_meals: dict, total_price: float):
             meal_id: quantity for meal_id, quantity in order_meals.items()
         }
     }
-
-    # Write order to JSON.
-    orders[str(order_id)] = order_item
+    orders[str(new_order_id)] = order_item
     write_json(orders, "orders.json")
-    print(f"\n*** Thank you! *** \nYour order number is {order_id}.")
+
+    return new_order_id
+
+
+def _generate_order_id(orders: dict) -> int:
+    """
+    Generate order ID
+    """
+    
+    last_order_id = 1 if not orders else max(orders.keys(), key=int)
+    new_order_id = int(last_order_id) + 1
+
+    if new_order_id >= MAX_ORDERS_CAN_BE_HANDLED:
+        order_id_ = 1
+        while order_id_ <= MAX_ORDERS_CAN_BE_HANDLED:
+            if orders[str(order_id_)]["status"] == "Ready":
+                new_order_id = order_id_
+                break
+            order_id_ = order_id_ + 1
+        else:
+            new_order_id = 0
+
+    return new_order_id
 
 
 def _update_order_status_ui():
     """
     Update order status. Remove order from JSON.
     """
-    orders = _get_orders()
+    orders = get_orders()
+
     if not orders:
         print("No orders to update.")
         return
@@ -144,11 +196,13 @@ def _update_order_status_ui():
     # Write order to JSON.
     write_json(orders, "orders.json")   
     print(f"Order {order_id} is ready.")
-    print("***MUSIC***")
+
+    # Update tablo.
+    _update_tablo(int(order_id), "Ready")
     
 
 def _get_orders_ui():
-    orders = _get_orders()
+    orders = get_orders()
 
     if not orders:
         print("No orders to show.")
@@ -156,16 +210,7 @@ def _get_orders_ui():
     
     print("\n*** Orders ***")
     for order_id, order_info in orders.items():
-        print(f"Order ID: {order_id} ✷ Status: {order_info['status']} ✷ Creation time: {order_info['creation_time']} ✷ Cost: ${order_info['cost']}")
-
-
-def application_menu():
-    print('\n*** OOO "MKH CENTRE FAST FOOD" ***')
-    print("1. Create order")
-    print("2. Update order status") 
-    print("3. Tablo") 
-    print("0. Exit")
-
+        print(f"{order_id} ✷ {order_info['status']} ✷ {order_info['creation_time']} ✷ ${order_info['cost']}")
 
 
 def _exit_application():
@@ -173,9 +218,8 @@ def _exit_application():
 
 
 def main():
-    application_menu()
+    print_application_menu()
     choice = input("Enter: ")
-    print("\n")
 
     routes = {
         "1": _create_order_ui,
@@ -184,15 +228,15 @@ def main():
         "0": _exit_application,
     }
 
-    try:
-    
-        if choice in routes:           
-            routes[choice]()
-        else:
-            print("Wrong input! Please, repeat!")
+    # try:
 
-    except Exception:
-        print("Error occured! Please, repeat!")
+    if choice in routes:           
+        routes[choice]()
+    else:
+        print("Wrong input! Please, repeat!")
+
+    # except Exception:
+    #     print("Error occured! Please, repeat!")
 
 
 if __name__ == "__main__":
